@@ -3,18 +3,10 @@
 # vim:fileencoding=utf-8
 import bottle
 from bottle import response, run, request, post
-import requests
-import geocoder
 import re, json
 import hashlib
 from uuid import uuid4
-import urllib
 
-
-from bs4 import BeautifulSoup
-
-import random
-import string
 
 from models.db_user import DBUser
 from models.db_sessions import DBSessions
