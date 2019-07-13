@@ -1,6 +1,4 @@
 peewee
 bottle
-re
-json
 hashlib
 uuid
