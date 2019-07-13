@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fileencoding=utf-8
+import os
 import bottle
 from bottle import response, run, request, post
 import re, json
@@ -241,7 +242,7 @@ def add_route_server():
     except:
         return "Error"
 
-# app.install(EnableCors())
+app.install(EnableCors())
 #
 # @app.hook('after_request')
 # def enable_cors():
@@ -250,4 +251,6 @@ def add_route_server():
 #     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
 #     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
-app.run(port=8002)
+# app.run(port=8002)
+
+app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000))
