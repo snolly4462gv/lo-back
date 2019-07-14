@@ -273,6 +273,6 @@ app.install(EnableCors())
 #     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
 #     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
-app.run(port=8002)
+# app.run(port=8002)
 
-# app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000))
+app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000))
