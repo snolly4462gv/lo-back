@@ -123,7 +123,7 @@ class EnableCors(object):
         def _enabled_cors(*args, **kwargs):
             response.headers['Access-Control-Allow-Origin'] = '*'
             response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS, DELETE'
-            response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+            response.headers['Access-Control-Allow-Headers'] = 'Authorization, Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
             if bottle.request.method != 'OPTIONS':
                 return fn(*args, **kwargs)
         return _enabled_cors
