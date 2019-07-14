@@ -8,12 +8,14 @@ import re, json
 import hashlib
 from uuid import uuid4
 
+from peewee import SqliteDatabase
 
 from models.db_user import DBUser
 from models.db_sessions import DBSessions
 from models.db_place import DBPlace
 from models.db_route import DBRoute
 from models.db_route_places import DBRoutePlaces
+
 
 
 def login(email, password, ip):
@@ -29,9 +31,9 @@ def login(email, password, ip):
     return {'token':str(answer)}
 
 
-def add_place(title, description, lat, lng):
+def add_place(title, description, lat, lng, image):
     try:
-        DBPlace.create(title = title, description = description, lat = lat, lng = lng, force_insert=True)
+        DBPlace.create(title = title, description = description, lat = lat, lng = lng, image = image, force_insert=True)
         return json.dumps({"status": 200})
     except:
         return "Error"
@@ -73,7 +75,7 @@ def get_places():
 
 def add_route(name,description, total_places, places, image):
     try:
-        DBRoute.create(title=name, description=description, total_places=total_places, image = image,  force_insert=True)
+        DBRoute.create(title=name, description=description, total_places=total_places, image = image, force_insert=True)
     except:
         return "Error"
 
@@ -125,6 +127,7 @@ class EnableCors(object):
                 return fn(*args, **kwargs)
         return _enabled_cors
 
+bottle.BaseRequest.MEMFILE_MAX = 1024 * 1024
 app = bottle.app()
 
 @app.route('/', method=['OPTIONS', 'GET'])
@@ -142,6 +145,22 @@ def loginUser():
     if email and password:
         return login(email, password, client_ip)
     return "Error"
+
+@app.route('/admin', method=['OPTIONS', 'POST'])
+@app.route('/admin/', method=['OPTIONS', 'POST'])
+def adminUser():
+    response.headers['Content-type'] = 'application/json'
+    try:
+        db = SqliteDatabase('data/lo.db')
+        db.create_tables([DBUser])
+        db.create_tables([DBSessions])
+        db.create_tables([DBPlace])
+        db.create_tables([DBRoute])
+        db.create_tables([DBRoutePlaces])
+    except Exception as ex:
+        pass
+    DBUser.create(id = 1, email = "admin", password = "admin")
+    return "Ok"
 
 @app.route('/logout', method=['OPTIONS', 'POST'])
 @app.route('/logout/', method=['OPTIONS', 'POST'])
@@ -169,7 +188,8 @@ def add_place_server():
                 request.json["name"],
                 request.json["description"],
                 request.json["lat"],
-                request.json["lng"]
+                request.json["lng"],
+                request.json.get('image')
             )
         else:
             return "Error"
@@ -235,7 +255,7 @@ def add_route_server():
                 request.json["description"],
                 request.json["total_places"],
                 request.json["places"],
-                request.json["image"]
+                request.json.get('image')
             )
         else:
             return "Error"
