@@ -106,6 +106,7 @@ def get_routes():
     querry = DBRoute.select().execute()
     for route in querry:
         routes.append({
+            'id': route.id,
             'name': route.title,
             'description': route.description,
             'total_places': route.total_places,
@@ -263,7 +264,8 @@ def add_route_server():
         return "Error"
 
 app.install(EnableCors())
-#
+
+
 # @app.hook('after_request')
 # def enable_cors():
 #     print("!!!")
@@ -271,6 +273,6 @@ app.install(EnableCors())
 #     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
 #     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
-# app.run(port=8002)
+app.run(port=8002)
 
-app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000))
+# app.run(host='0.0.0.0', port=os.environ.get("PORT", 5000))
