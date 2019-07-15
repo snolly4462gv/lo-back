@@ -31,9 +31,9 @@ def login(email, password, ip):
     return {'token':str(answer)}
 
 
-def add_place(title, description, lat, lng, image):
+def add_place(title, description, lat, lng, image, type):
     try:
-        DBPlace.create(title = title, description = description, lat = lat, lng = lng, image = image, force_insert=True)
+        DBPlace.create(title = title, description = description, lat = lat, lng = lng, image = image, type= type, force_insert=True)
         return json.dumps({"status": 200})
     except:
         return "Error"
@@ -203,7 +203,8 @@ def add_place_server():
                 request.json["description"],
                 request.json["lat"],
                 request.json["lng"],
-                request.json.get('image')
+                request.json.get('image'),
+                request.json["type"]
             )
         else:
             return "Error"
