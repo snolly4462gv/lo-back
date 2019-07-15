@@ -9,6 +9,7 @@ class DBPlace(Model):
     lat = DoubleField(default=0)
     lng = DoubleField(default=0)
     image = TextField(default='')
+    type = TextField(default='')
 
 
     class Meta:

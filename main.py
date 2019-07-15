@@ -114,6 +114,19 @@ def get_routes():
         })
     return json.dumps(routes)
 
+def get_route_places(id):
+    places = list()
+    querry = DBPlace.select().join(DBRoutePlaces, on=(DBRoutePlaces.id_place == DBPlace.id)).where(DBRoutePlaces.id_route == id)
+    for place in querry:
+        places.append({
+            'name': place.title,
+            'description': place.description,
+            'lat': place.lat,
+            'lng': place.lng,
+            'type': place.type
+        })
+    return json.dumps(places)
+
 #######################
     # SERVER #
 #######################
@@ -241,6 +254,17 @@ def get_places_server():
         token = request.headers['Authorization']
         if DBSessions.select().where(DBSessions.token == token).count() == 1:
             return get_routes()
+        return "Error"
+    except:
+        return "Error"
+
+@app.route('/get_route_places/<id>', method=['OPTIONS', 'GET'])
+def get_route_places_server(id):
+    response.headers['Content-type'] = 'application/json'
+    try:
+        token = request.headers['Authorization']
+        if DBSessions.select().where(DBSessions.token == token).count() == 1:
+            return get_route_places(id)
         return "Error"
     except:
         return "Error"
