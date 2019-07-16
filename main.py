@@ -211,15 +211,14 @@ def add_place_server():
     except:
         return "Error"
 
-@app.route('/remove_place', method=['OPTIONS', 'DELETE'])
-@app.route('/remove_place/', method=['OPTIONS', 'DELETE'])
-def remove_place_server():
+@app.route('/remove_place/<id>', method=['OPTIONS', 'DELETE'])
+def remove_place_server(id):
     try:
         token = request.headers['Authorization']
         if DBSessions.select().where(DBSessions.token == token).count() == 1:
             # request.forms.get("title")
             return remove_place(
-                request.forms.get("id")
+               id
             )
         return "Error"
     except:
@@ -285,6 +284,20 @@ def add_route_server():
             )
         else:
             return "Error"
+    except:
+        return "Error"
+
+
+@app.route('/remove_route/<id>', method=['OPTIONS', 'DELETE'])
+def remove_route_server(id):
+    try:
+        token = request.headers['Authorization']
+        if DBSessions.select().where(DBSessions.token == token).count() == 1:
+            # request.forms.get("title")
+            return remove_route(
+                id
+            )
+        return "Error"
     except:
         return "Error"
 
