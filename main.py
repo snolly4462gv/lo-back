@@ -249,10 +249,10 @@ def get_place_id_server(id):
 def get_places_server():
     response.headers['Content-type'] = 'application/json'
     try:
-        token = request.headers['Authorization']
-        if DBSessions.select().where(DBSessions.token == token).count() == 1:
-            return get_routes()
-        return "Error"
+       token = request.headers['Authorization']
+       # if DBSessions.select().where(DBSessions.token == token).count() == 1:
+       return get_routes()
+       # return "Error"
     except:
         return "Error"
 
