@@ -196,8 +196,6 @@ def add_place_server():
         token = request.headers['Authorization']
         print(DBSessions.select().where(DBSessions.token == token).count())
         if DBSessions.select().where(DBSessions.token == token).count() == 1:
-            print("!!!")
-            print(request.json.get('image'))
             return add_place(
                 request.json["name"],
                 request.json["description"],
