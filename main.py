@@ -108,9 +108,9 @@ def get_routes():
         routes.append({
             'id': route.id,
             'name': route.title,
-            'description': route.description,
+            #'description': route.description,
             'total_places': route.total_places,
-            'image': route.image
+            #'image': route.image
         })
     return json.dumps(routes)
 
